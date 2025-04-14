@@ -85,7 +85,7 @@
                         @else
                             <!-- Belum login -->
                             <div class="flex space-x-2">
-                                <a href="#"
+                                <a href="{{ route('login') }}"
                                     class="rounded-md bg-white px-3 py-2 text-sm font-medium text-purple-800 hover:bg-gray-200">Login</a>
                             </div>
                         @endauth
