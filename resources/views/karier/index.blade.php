@@ -14,7 +14,7 @@
     <x-navbar />
     <x-background />
 
-    <div class="relative z-10 flex flex-col md:flex-row mt-40 -h-screen text-white px-4 max-w-310 mx-auto">
+    <div class="relative z-10 flex flex-col md:flex-row mt-40 text-white px-4 max-w-7xl mx-auto">
         <!-- Kolom kiri untuk form -->
         <div class="flex flex-col w-full md:w-1/2">
             <h1 class="text-3xl md:text-5xl font-bold mb-4 drop-shadow-lg">Sistem Rekomendasi Karier</h1>
@@ -24,18 +24,17 @@
                 Rekomendasi pintar sesuai minat dan potensimu.
             </p>
 
-            <form class="mt-10 space-y-6 w-110" action="#" method="POST">
+            <form class="mt-10 space-y-6 w-full max-w-md" id="karierForm" method="POST">
+                @csrf
                 <div>
-                    <label for="minat" class="block text-sm font-medium text-white">Minat</label>
-                    <input type="text" name="minat" id="minat" autocomplete="minat" required
+                    <label for="minat" class="block text-sm font-medium text-white">Bidang Yang Diminati</label>
+                    <input type="text" name="minat" id="minat" autocomplete="off" required
                         class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
                 </div>
 
                 <div>
-                    <div class="flex items-center justify-between">
-                        <label for="kemampuan" class="block text-sm font-medium text-white">Kemampuan</label>
-                    </div>
-                    <input type="text" name="kemampuan" id="kemampuan" autocomplete="current-password" required
+                    <label for="kemampuan" class="block text-sm font-medium text-white">Kemampuan Yang Dikuasai</label>
+                    <input type="text" name="kemampuan" id="kemampuan" autocomplete="off" required
                         class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
                 </div>
 
@@ -49,22 +48,21 @@
         </div>
 
         <!-- Kolom kanan untuk hasil rekomendasi -->
-        <div id="result-container" class="mt-6 md:mt-0 md:w-1/2 md:ml-8 flex flex-col justify-start items-start">
+        <div id="result-container" class="mt-10 md:mt-0 md:w-1/2 md:ml-8 flex flex-col justify-start items-start">
             <!-- Hasil akan ditampilkan di sini -->
         </div>
     </div>
 
     <script>
-        document.querySelector('form').addEventListener('submit', async function (e) {
+        document.querySelector('#karierForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const minat = document.querySelector('#minat').value;
             const kemampuan = document.querySelector('#kemampuan').value;
             const resultContainer = document.getElementById('result-container');
-            resultContainer.innerHTML = ''; // Clear sebelumnya
+            resultContainer.innerHTML = '';
 
             try {
-                // Fetch dari Flask
                 const response = await fetch('http://127.0.0.1:5001/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -72,7 +70,6 @@
                 });
                 const result = await response.json();
 
-                // Fetch lowongan kerja dari Adzuna
                 const appId = 'e5ba88ba';
                 const appKey = '552e8ae1ac56353814c7f5ba74d4dba6';
                 const keyword = result.rekomendasi;
@@ -80,7 +77,6 @@
                 const jobsRes = await fetch(`https://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=${appId}&app_key=${appKey}&results_per_page=5&what=${keyword}&content-type=application/json`);
                 const jobsData = await jobsRes.json();
 
-                // Buat 1 card gabungan
                 const resultCard = document.createElement('div');
                 resultCard.classList.add('bg-gray-800', 'text-white', 'p-6', 'rounded-xl', 'shadow-xl', 'w-full');
 
@@ -114,10 +110,6 @@
             }
         });
     </script>
-
-
-
-
 </body>
 
 </html>

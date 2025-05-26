@@ -22,16 +22,24 @@
 
         <form class="mt-10 space-y-6 w-110" action="#" method="POST">
             <div>
-                <label for="minat" class="block text-sm font-medium text-white">Minat</label>
+                <label for="minat" class="block text-sm font-medium text-white">Bidang Studi Yang Diminati</label>
                 <input type="text" name="minat" id="minat" autocomplete="minat" required
                     class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
             </div>
 
             <div>
                 <div class="flex items-center justify-between">
-                    <label for="kemampuan" class="block text-sm font-medium text-white">Kemampuan</label>
+                    <label for="nilai-akademik" class="block text-sm font-medium text-white">Nilai Akademik</label>
                 </div>
-                <input type="text" name="kemampuan" id="kemampuan" autocomplete="current-password" required
+                <input type="text" name="nilai-akademik" id="nilai-akademik" required
+                    class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+            </div>
+
+            <div>
+                <div class="flex items-center justify-between">
+                    <label for="tingkat-pendidikan" class="block text-sm font-medium text-white">Tingkat Pendidikan Yang Diinginkan</label>
+                </div>
+                <input type="text" name="tingkat-pendidikan" id="tingkat-pendidikan" required
                     class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
             </div>
 

@@ -2,31 +2,32 @@ from flask import Flask, request, jsonify
 import joblib
 import numpy as np
 from flask_cors import CORS
+from scipy.sparse import hstack
 
 app = Flask(__name__)
-
-# Mengizinkan CORS
 CORS(app)
 
-# Memuat model dan encoder
+# Load model dan NLP tools
 model = joblib.load("career_model.pkl")
-le_minat = joblib.load("le_minat.pkl")
-le_kemampuan = joblib.load("le_kemampuan.pkl")
+tfidf_minat = joblib.load("tfidf_minat.pkl")
+tfidf_kemampuan = joblib.load("tfidf_kemampuan.pkl")
 le_karier = joblib.load("le_karier.pkl")
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.get_json()  # Mengambil data yang dikirimkan oleh frontend
+    data = request.get_json()
     minat = data['minat']
     kemampuan = data['kemampuan']
 
-    # Encoding input
-    minat_enc = le_minat.transform([minat])[0]
-    kemampuan_enc = le_kemampuan.transform([kemampuan])[0]
+    # Transformasi teks input dengan TF-IDF
+    minat_vec = tfidf_minat.transform([minat])
+    kemampuan_vec = tfidf_kemampuan.transform([kemampuan])
 
-    # Melakukan prediksi
-    input_data = np.array([[minat_enc, kemampuan_enc]])
-    pred = model.predict(input_data)
+    # Gabungkan vektor
+    input_vec = hstack([minat_vec, kemampuan_vec])
+
+    # Prediksi
+    pred = model.predict(input_vec)
     karier = le_karier.inverse_transform(pred)[0]
 
     return jsonify({'rekomendasi': karier})
