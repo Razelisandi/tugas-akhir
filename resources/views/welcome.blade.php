@@ -25,7 +25,7 @@
 
     <div class="relative z-10 flex flex-col items-center justify-center min-h-screen text-white text-center px-4">
         <h1 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
-            Sistem Penyuluhan Karier dan Pendidikan
+            Sistem Rekomendasi Karier dan Pendidikan
         </h1>
         <p class="text-lg md:text-xl max-w-2xl drop-shadow-md">
             Temukan arah karier dan pendidikan yang tepat melalui sistem rekomendasi berbasis Machine Learning Decision Tree.

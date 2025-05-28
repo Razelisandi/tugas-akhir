@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS
 from openai import OpenAI
+import joblib
 
 app = Flask(__name__)
 CORS(app)  # Agar bisa diakses dari frontend Laravel
@@ -53,6 +54,8 @@ client = OpenAI(
     api_key="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"
 )
 
+vectorizer, model = joblib.load("chatbot_model.joblib")
+
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
@@ -76,6 +79,7 @@ def chat():
                     "content": user_message
                 }
             ],
+            max_tokens=256,
             extra_headers={
                 "HTTP-Referer": "#",
                 "X-Title": "Sistem Konselor AI Razel"

@@ -1,0 +1,48 @@
+intent,pattern,response
+sapaan,halo,Halo! Aku adalah asisten edukasi. Bisa bantu kamu memilih jurusan kuliah atau karier. Mau mulai dari mana?
+sapaan,hai,Halo! Aku adalah asisten edukasi. Bisa bantu kamu memilih jurusan kuliah atau karier. Mau mulai dari mana?
+sapaan,hello,Halo! Aku adalah asisten edukasi. Bisa bantu kamu memilih jurusan kuliah atau karier. Mau mulai dari mana?
+sapaan,hi,Halo! Aku adalah asisten edukasi. Bisa bantu kamu memilih jurusan kuliah atau karier. Mau mulai dari mana?
+sapaan,halo bot,Halo! Aku adalah asisten edukasi. Bisa bantu kamu memilih jurusan kuliah atau karier. Mau mulai dari mana?
+sapaan,assalamualaikum,Halo! Aku adalah asisten edukasi. Bisa bantu kamu memilih jurusan kuliah atau karier. Mau mulai dari mana?
+pengertian_karier,apa itu karier,"Karier adalah perjalanan atau jalur pekerjaan seseorang dalam hidupnya. Ini mencakup pekerjaan, pengalaman, dan pengembangan diri."
+pengertian_karier,pengertian karier,"Karier adalah perjalanan atau jalur pekerjaan seseorang dalam hidupnya. Ini mencakup pekerjaan, pengalaman, dan pengembangan diri."
+pengertian_karier,karier itu apa,"Karier adalah perjalanan atau jalur pekerjaan seseorang dalam hidupnya. Ini mencakup pekerjaan, pengalaman, dan pengembangan diri."
+penjelasan_jurusan,apa itu jurusan,"Jurusan atau program studi adalah bidang keilmuan yang kamu pilih di perguruan tinggi, seperti Teknik Informatika, Psikologi, atau Manajemen."
+penjelasan_jurusan,jurusan itu apa,"Jurusan atau program studi adalah bidang keilmuan yang kamu pilih di perguruan tinggi, seperti Teknik Informatika, Psikologi, atau Manajemen."
+penjelasan_jurusan,pengertian jurusan,"Jurusan atau program studi adalah bidang keilmuan yang kamu pilih di perguruan tinggi, seperti Teknik Informatika, Psikologi, atau Manajemen."
+penjelasan_jurusan,apa itu prodi,"Jurusan atau program studi adalah bidang keilmuan yang kamu pilih di perguruan tinggi, seperti Teknik Informatika, Psikologi, atau Manajemen."
+bingung_pilih_jurusan,aku bingung pilih jurusan,"Tenang, kita bisa mulai dari minat kamu. Apa pelajaran favoritmu di sekolah?"
+bingung_pilih_jurusan,nggak tau jurusan,"Tenang, kita bisa mulai dari minat kamu. Apa pelajaran favoritmu di sekolah?"
+bingung_pilih_jurusan,jurusan apa yang cocok buatku,"Tenang, kita bisa mulai dari minat kamu. Apa pelajaran favoritmu di sekolah?"
+bingung_pilih_jurusan,susah milih jurusan,"Tenang, kita bisa mulai dari minat kamu. Apa pelajaran favoritmu di sekolah?"
+rekomendasi_jurusan,rekomendasi jurusan,"Kalau kamu suka logika dan hitung-hitungan, mungkin kamu cocok di Teknik atau Informatika. Kalau kamu suka ngobrol dan bantu orang, coba Psikologi atau Komunikasi."
+rekomendasi_jurusan,aku cocok jurusan apa,"Kalau kamu suka logika dan hitung-hitungan, mungkin kamu cocok di Teknik atau Informatika. Kalau kamu suka ngobrol dan bantu orang, coba Psikologi atau Komunikasi."
+rekomendasi_jurusan,jurusan yang cocok buat saya,"Kalau kamu suka logika dan hitung-hitungan, mungkin kamu cocok di Teknik atau Informatika. Kalau kamu suka ngobrol dan bantu orang, coba Psikologi atau Komunikasi."
+jurusan_untuk_IPA,saya anak ipa,"Kalau kamu dari IPA, banyak pilihan seperti Teknik, Kedokteran, Farmasi, MIPA, bahkan Ekonomi atau Psikologi juga bisa!"
+jurusan_untuk_IPA,saya jurusan ipa,"Kalau kamu dari IPA, banyak pilihan seperti Teknik, Kedokteran, Farmasi, MIPA, bahkan Ekonomi atau Psikologi juga bisa!"
+jurusan_untuk_IPA,jurusan kuliah untuk anak ipa,"Kalau kamu dari IPA, banyak pilihan seperti Teknik, Kedokteran, Farmasi, MIPA, bahkan Ekonomi atau Psikologi juga bisa!"
+jurusan_untuk_IPS,saya anak ips,"Anak IPS bisa masuk jurusan seperti Manajemen, Hukum, Akuntansi, Komunikasi, Sosiologi, dan banyak lagi!"
+jurusan_untuk_IPS,saya jurusan ips,"Anak IPS bisa masuk jurusan seperti Manajemen, Hukum, Akuntansi, Komunikasi, Sosiologi, dan banyak lagi!"
+jurusan_untuk_IPS,jurusan kuliah untuk anak ips,"Anak IPS bisa masuk jurusan seperti Manajemen, Hukum, Akuntansi, Komunikasi, Sosiologi, dan banyak lagi!"
+universitas_terbaik,universitas terbaik di indonesia,"Beberapa universitas terbaik di Indonesia adalah UI, ITB, UGM, dan juga UNS. Tentu pilihan terbaik tergantung jurusan yang kamu minati juga."
+universitas_terbaik,kampus top,"Beberapa universitas terbaik di Indonesia adalah UI, ITB, UGM, dan juga UNS. Tentu pilihan terbaik tergantung jurusan yang kamu minati juga."
+universitas_terbaik,kampus terbaik,"Beberapa universitas terbaik di Indonesia adalah UI, ITB, UGM, dan juga UNS. Tentu pilihan terbaik tergantung jurusan yang kamu minati juga."
+universitas_terbaik,universitas bagus,"Beberapa universitas terbaik di Indonesia adalah UI, ITB, UGM, dan juga UNS. Tentu pilihan terbaik tergantung jurusan yang kamu minati juga."
+karier_introvert,pekerjaan untuk introvert,"Introvert biasanya nyaman kerja mandiri. Coba pertimbangkan jadi Penulis, Programmer, Desainer Grafis, atau Data Analyst."
+karier_introvert,introvert cocok kerja apa,"Introvert biasanya nyaman kerja mandiri. Coba pertimbangkan jadi Penulis, Programmer, Desainer Grafis, atau Data Analyst."
+karier_introvert,kerja buat pemalu,"Introvert biasanya nyaman kerja mandiri. Coba pertimbangkan jadi Penulis, Programmer, Desainer Grafis, atau Data Analyst."
+karier_extrovert,pekerjaan untuk extrovert,"Extrovert suka interaksi. Karier seperti Public Relations, Pengajar, Host Acara, Marketing, atau Jurnalis bisa jadi cocok banget!"
+karier_extrovert,extrovert cocok kerja apa,"Extrovert suka interaksi. Karier seperti Public Relations, Pengajar, Host Acara, Marketing, atau Jurnalis bisa jadi cocok banget!"
+karier_extrovert,kerja buat orang rame,"Extrovert suka interaksi. Karier seperti Public Relations, Pengajar, Host Acara, Marketing, atau Jurnalis bisa jadi cocok banget!"
+info_beasiswa,info beasiswa,"Untuk info beasiswa terbaru, kamu bisa cek di situs resmi kampus atau platform seperti beasiswa.id dan kampusgratis.id."
+info_beasiswa,ada beasiswa apa,"Untuk info beasiswa terbaru, kamu bisa cek di situs resmi kampus atau platform seperti beasiswa.id dan kampusgratis.id."
+info_beasiswa,rekomendasi beasiswa,"Untuk info beasiswa terbaru, kamu bisa cek di situs resmi kampus atau platform seperti beasiswa.id dan kampusgratis.id."
+terima_kasih,terima kasih,"Sama-sama! Kalau kamu ada pertanyaan lain seputar pendidikan dan karier, tinggal tanya aja ya."
+terima_kasih,makasih ya,"Sama-sama! Kalau kamu ada pertanyaan lain seputar pendidikan dan karier, tinggal tanya aja ya."
+terima_kasih,thank you,"Sama-sama! Kalau kamu ada pertanyaan lain seputar pendidikan dan karier, tinggal tanya aja ya."
+terima_kasih,thanks,"Sama-sama! Kalau kamu ada pertanyaan lain seputar pendidikan dan karier, tinggal tanya aja ya."
+penutup,dadah,Sampai jumpa! Semangat terus belajar dan mengejar impianmu!
+penutup,bye,Sampai jumpa! Semangat terus belajar dan mengejar impianmu!
+penutup,sampai jumpa,Sampai jumpa! Semangat terus belajar dan mengejar impianmu!
+penutup,aku pamit,Sampai jumpa! Semangat terus belajar dan mengejar impianmu!

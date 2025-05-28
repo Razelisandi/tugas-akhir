@@ -1,0 +1,205 @@
+Field,Skill,Career
+IT Developer,writing,Technical Writer
+IT Developer,drawing,UI/UX Designer
+IT Developer,public speaking,IT Consultant
+IT Developer,logic,Backend Developer
+IT Developer,analysis,Data Analyst
+IT Developer,communication,Project Manager IT
+IT Developer,coding,Fullstack Developer
+IT Developer,troubleshooting,IT Support Specialist
+IT Developer,cybersecurity,Cybersecurity Analyst
+IT Developer,mathematics,Software Engineer
+IT Developer,algorithm,Machine Learning Engineer
+IT Developer,scripting,DevOps Engineer
+IT Developer,cloud computing,Cloud Architect
+IT Developer,computer science,Research Scientist AI
+IT Developer,blockchain,Blockchain Developer
+IT Developer,automation,Test Automation Engineer
+IT Developer,robotics,Robotics Engineer
+IT Developer,mobile program,Mobile Developer
+IT Developer,frontend,Frontend Engineer
+IT Developer,database,Database Administrator
+Design,drawing,Illustrator
+Design,color & composition,Graphic Designer
+Design,photography,Digital Imaging Specialist
+Design,ui/ux,Web Designer
+Design,motion,Motion Graphic Artist
+Design,creativity,Art Director
+Design,branding,Creative Strategist
+Design,storytelling,Visual Content Creator
+Design,observation,Layout Designer
+Design,design software,Multimedia Designer
+Design,typography,Typographer
+Design,character design,Character Designer
+Design,comics,Comic Artist
+Health,caring,Nurse
+Health,biology,General Practitioner
+Health,high concentration,Surgeon
+Health,attention to detail,Pharmacist
+Health,empathy,Clinical Psychologist
+Health,public speaking,Health Educator
+Health,physical strength,Paramedic
+Health,memorization,Specialist Doctor
+Health,analysis,Medical Researcher
+Health,communication,Nutrition Counselor
+Health,organization,Hospital Manager
+Health,environmental awareness,Community Nutritionist
+Health,education,Health Educator
+Education & Training,public speaking,Teacher
+Education & Training,patience,Lecturer
+Education & Training,literacy,Literacy Facilitator
+Education & Training,writing,Educational Book Writer
+Education & Training,edtech,Educational Technology Specialist
+Education & Training,observation,Educational Psychologist
+Education & Training,online teaching,E-Learning Coach
+Education & Training,student observation,School Psychologist
+Education & Training,creativity,Educational Media Developer
+Education & Training,analysis,Education Researcher
+Education & Training,digital literacy,E-learning Instructor
+Education & Training,communication,School Counselor
+Education & Training,counseling,Career Counselor
+Education & Training,interpersonal,Career Coach
+Education & Training,technology,Children’s Coding Instructor
+Education & Training,organization,School Principal
+Business & Management,negotiation,Sales Manager
+Business & Management,analysis,Business Analyst
+Business & Management,financial analysis,Financial Analyst
+Business & Management,tax accounting,Tax Consultant
+Business & Management,financial planning,Financial Planner
+Business & Management,calculation,Actuary
+Business & Management,investment,Investment Analyst
+Business & Management,asset management,Asset Manager
+Business & Management,statistics,Credit Analyst
+Business & Management,reporting,Accounting Staff
+Business & Management,communication,Public Relations Specialist
+Business & Management,leadership,Project Manager
+Business & Management,strategy,Business Consultant
+Business & Management,digital marketing,Digital Marketer
+Business & Management,accounting,Auditor
+Business & Management,problem solving,Entrepreneur
+Business & Management,time management,Event Organizer
+Business & Management,decision making,Operations Manager
+Business & Management,risk management,Risk Analyst
+Business & Management,capital market,Financial Analyst
+Business & Management,HR management,HR Specialist
+Music,playing guitar,Guitarist
+Music,singing,Vocalist
+Music,music composition,Composer
+Music,music theory,Music Teacher
+Music,music production,Music Producer
+Music,mixing,Sound Engineer
+Music,stage,Music Director
+Music,multi-talented,Indie Musician
+Sports,physical agility,Sports Coach
+Sports,team strategy,Sports Team Manager
+Sports,motivation,Fitness Consultant
+Sports,teaching,Gym Instructor
+Sports,observation,Referee
+Sports,competitive spirit,Professional Athlete
+Sports,physiology,Sports Physiotherapist
+Sports,outdoor,Outdoor Sports Guide
+Language & Communication,creative writing,Copywriter
+Language & Communication,editorial,Editor
+Language & Communication,multilingual,Translator
+Language & Communication,broadcasting,Broadcaster
+Language & Communication,interviewing,Reporter
+Language & Communication,digital content,Content Creator
+Language & Communication,visual communication,Brand Strategist
+Language & Communication,scriptwriting,Scriptwriter
+Language & Communication,storytelling,Podcaster
+Language & Communication,rhetoric,Host/Moderator
+Art,painting,Painter
+Art,sculpting,Sculptor
+Art,creativity,Contemporary Artist
+Art,art gallery,Art Curator
+Art,photography,Art Photographer
+Art,self-expression,Performance Artist
+Art,visual storytelling,Storyboard Artist
+Art,installation art,Installation Artist
+Art,self-expression,Actor
+Art,body coordination,Dancer
+Art,vocals,Singer
+Art,stage,Theatre Production Manager
+Art,scriptwriting,Dramaturg
+Art,art direction,Director
+Art,lighting,Lighting Designer
+Art,live music,Performer
+Art,costumes,Costume Designer
+Art,sound setup,Sound Engineer
+Environment,analysis,Environmental Scientist
+Environment,research,Environmental Researcher
+Environment,communication,Environmental Activist
+Environment,planning,Environmental Consultant
+Environment,field work,Conservation Officer
+Environment,advocacy,Environmental Lawyer
+Environment,education,Environmental Educator
+Environment,engineering,Environmental Engineer
+Journalism & Media,writing,Journalist
+Journalism & Media,observation,Reporter
+Journalism & Media,communication,News Presenter
+Journalism & Media,research,Fact Checker
+Journalism & Media,editing,Editor
+Journalism & Media,social media,Content Creator
+Journalism & Media,interviewing,Interviewer
+Journalism & Media,photography,Photojournalist
+Journalism & Media,multimedia,Video Journalist
+Engineering & Industry,mechanics,Mechanical Engineer
+Engineering & Industry,electronics,Electronics Engineer
+Engineering & Industry,architecture,Architect
+Engineering & Industry,energy,Energy Engineer
+Engineering & Industry,planning,Construction Project Manager
+Engineering & Industry,production,Factory Manager
+Engineering & Industry,system analysis,Systems Engineer
+Engineering & Industry,3D modeling,CAD Designer
+Engineering & Industry,quality control,Quality Assurance Engineer
+Engineering & Industry,material testing,Material Scientist
+Tourism & Hospitality,hospitality,Hotel Manager
+Tourism & Hospitality,multilingual,Tour Guide
+Tourism & Hospitality,customer service,Receptionist
+Tourism & Hospitality,attention to detail,Event Planner
+Tourism & Hospitality,logistics,Hotel Operations Manager
+Tourism & Hospitality,culinary,Chef
+Tourism & Hospitality,branding,Tourism Brand Manager
+Tourism & Hospitality,destination photography,Travel Photographer
+Tourism & Hospitality,negotiation,Travel Agent
+Tourism & Hospitality,multicultural awareness,International Resort Manager
+Agriculture & Livestock,plants,Agronomist
+Agriculture & Livestock,livestock,Livestock Farmer
+Agriculture & Livestock,research,Agricultural Researcher
+Agriculture & Livestock,product processing,Agribusiness Manager
+Agriculture & Livestock,extension services,Agricultural Extension Officer
+Agriculture & Livestock,animal health,Veterinarian
+Agriculture & Livestock,food technology,Food Technology Specialist
+Agriculture & Livestock,land management,Agricultural Consultant
+Agriculture & Livestock,dairy production,Dairy Farm Manager
+Agriculture & Livestock,animal feed,Animal Nutritionist
+Transportation & Logistics,shipping,Logistics Manager
+Transportation & Logistics,routing,Transportation Planner
+Transportation & Logistics,supply chain,Supply Chain Analyst
+Transportation & Logistics,warehouse management,Warehouse Supervisor
+Transportation & Logistics,distribution,Distribution Coordinator
+Transportation & Logistics,procurement,Procurement Specialist
+Transportation & Logistics,maritime transport,Ship Navigator
+Transportation & Logistics,air transport,Flight Operations Manager
+Transportation & Logistics,information technology,Transport Systems Analyst
+Transportation & Logistics,planning,Transportation Consultant
+Social & Humanities,communication,Public Relations Specialist
+Social & Humanities,research,Social Researcher
+Social & Humanities,counseling,Social Worker
+Social & Humanities,data analysis,Public Policy Analyst
+Social & Humanities,language,Translator
+Social & Humanities,culture,Anthropologist
+Social & Humanities,psychology,Psychologist
+Social & Humanities,education,Teacher
+Social & Humanities,journalism,Journalist
+Social & Humanities,international relations,Diplomat
+Law & Government,debating,Lawyer
+Law & Government,analysis,Judge
+Law & Government,constitution,Legislator
+Law & Government,issue analysis,Public Policy Analyst
+Law & Government,legal precision,Notary
+Law & Government,communication,Prosecutor
+Law & Government,administration,Government Officer
+Law & Government,advocacy,Human Rights Activist
+Law & Government,regulation,Legal Officer
+Law & Government,social relations,Diplomat
