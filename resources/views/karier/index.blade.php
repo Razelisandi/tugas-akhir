@@ -28,14 +28,19 @@
                 @csrf
                 <div>
                     <label for="minat" class="block text-sm font-medium text-white">Bidang Yang Diminati</label>
+                    <p id="hint-minat" class="mt-1 text-xs text-gray-300 hidden">Please use English for your answer.</p>
                     <input type="text" name="minat" id="minat" autocomplete="off" required
-                        class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm"
+                        placeholder="Enter your interest here">
                 </div>
 
                 <div>
                     <label for="kemampuan" class="block text-sm font-medium text-white">Kemampuan Yang Dikuasai</label>
+                    <p id="hint-kemampuan" class="mt-1 text-xs text-gray-300 hidden">Please use English for your skills.
+                    </p>
                     <input type="text" name="kemampuan" id="kemampuan" autocomplete="off" required
-                        class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm">
+                        class="mt-2 block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:outline-indigo-600 sm:text-sm"
+                        placeholder="Enter your skills here">
                 </div>
 
                 <div>
@@ -54,7 +59,25 @@
     </div>
 
     <script>
-        document.querySelector('#karierForm').addEventListener('submit', async function (e) {
+        const inputMinat = document.getElementById('minat');
+        const hintMinat = document.getElementById('hint-minat');
+        inputMinat.addEventListener('focus', () => {
+            hintMinat.classList.remove('hidden');
+        });
+        inputMinat.addEventListener('blur', () => {
+            hintMinat.classList.add('hidden');
+        });
+
+        const inputKemampuan = document.getElementById('kemampuan');
+        const hintKemampuan = document.getElementById('hint-kemampuan');
+        inputKemampuan.addEventListener('focus', () => {
+            hintKemampuan.classList.remove('hidden');
+        });
+        inputKemampuan.addEventListener('blur', () => {
+            hintKemampuan.classList.add('hidden');
+        });
+
+        document.querySelector('#karierForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const minat = document.querySelector('#minat').value;
@@ -65,8 +88,13 @@
             try {
                 const response = await fetch('http://127.0.0.1:5001/predict', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ minat, kemampuan }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        minat,
+                        kemampuan
+                    }),
                 });
                 const result = await response.json();
 
@@ -74,11 +102,14 @@
                 const appKey = '552e8ae1ac56353814c7f5ba74d4dba6';
                 const keyword = result.rekomendasi;
 
-                const jobsRes = await fetch(`https://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=${appId}&app_key=${appKey}&results_per_page=5&what=${keyword}&content-type=application/json`);
+                const jobsRes = await fetch(
+                    `https://api.adzuna.com/v1/api/jobs/gb/search/1?app_id=${appId}&app_key=${appKey}&results_per_page=5&what=${keyword}&content-type=application/json`
+                );
                 const jobsData = await jobsRes.json();
 
                 const resultCard = document.createElement('div');
-                resultCard.classList.add('bg-gray-800', 'text-white', 'p-6', 'rounded-xl', 'shadow-xl', 'w-full');
+                resultCard.classList.add('bg-gray-800', 'text-white', 'p-6', 'rounded-xl', 'shadow-xl',
+                    'w-full');
 
                 let jobsListHTML = '';
                 if (jobsData.results && jobsData.results.length > 0) {
@@ -90,7 +121,8 @@
                         </li>
                     `).join('');
                 } else {
-                    jobsListHTML = `<p class="text-gray-400">Maaf, tidak ditemukan lowongan kerja yang cocok.</p>`;
+                    jobsListHTML =
+                        `<p class="text-gray-400">Maaf, tidak ditemukan lowongan kerja yang cocok.</p>`;
                 }
 
                 resultCard.innerHTML = `

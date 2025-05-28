@@ -34,7 +34,7 @@
 
         <!-- Input -->
         <form id="chat-form" class="flex gap-2 p-4 bg-white mx-20 rounded-2xl my-10">
-            <input id="message" type="text" placeholder="Tulis pesan..."
+            <input id="message" type="text" autocomplete="off" placeholder="Tulis pesan..."
                 class="flex-1 px-4 py-2 rounded-lg border border-gray-300 outline-none focus:ring-2 focus:ring-indigo-500 text-sm" />
             <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 text-sm">
                 Kirim
