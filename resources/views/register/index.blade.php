@@ -62,8 +62,8 @@
                         Sign Up
                     </button>
                     <p class="mt-5 text-center text-sm text-white">
-                        Not a member?
-                        <a href="#" class="font-semibold text-blue-300 hover:text-blue-400">Register</a>
+                        I have account
+                        <a href="#" class="font-semibold text-blue-300 hover:text-blue-400">Login</a>
                     </p>
                     <p class="mt-5 text-center text-sm text-white">
                         Or

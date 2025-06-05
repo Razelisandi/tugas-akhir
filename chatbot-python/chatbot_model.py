@@ -51,7 +51,7 @@ def get_beasiswa():
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="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"
+    api_key="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"
 )
 
 vectorizer, model = joblib.load("chatbot_model.joblib")
@@ -68,18 +68,18 @@ def chat():
         completion = client.chat.completions.create(
             model="google/gemini-2.5-flash-preview-05-20",
             messages=[
-                # {
-                #     "role": "system",
-                #     "content": (
-                #     "Kamu adalah chatbot edukasi untuk siswa SMA/SMK yang ingin tahu jurusan kuliah dan karier. Jawablah dengan gaya santai, ramah, dan seperti ngobrol bareng teman. Jangan terlalu formal. Jangan langsung memberi daftar panjang. Tanyakan dulu minat dan pelajaran favorit mereka. Jangan pernah mengakhiri percakapan sepihak—biarkan user yang memutuskan kapan ingin berhenti."
-                #     )
-                # },
+                {
+                    "role": "system",
+                    "content": (
+                    "Kamu adalah chatbot edukasi untuk siswa SMA/SMK yang ingin tahu jurusan kuliah dan karier. Jawablah dengan gaya santai, ramah, dan seperti ngobrol bareng teman. Jangan terlalu formal. Jangan langsung memberi daftar panjang. Jangan pernah mengakhiri percakapan sepihak—biarkan user yang memutuskan kapan ingin berhenti."
+                    )
+                },
                 {
                     "role": "user",
                     "content": user_message
                 }
             ],
-            max_tokens=256,
+            max_tokens=512,
             extra_headers={
                 "HTTP-Referer": "#",
                 "X-Title": "Sistem Konselor AI Razel"

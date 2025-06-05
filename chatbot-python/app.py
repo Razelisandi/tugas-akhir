@@ -14,37 +14,57 @@ tfidf_minat = joblib.load("tfidf_minat.pkl")
 tfidf_kemampuan = joblib.load("tfidf_kemampuan.pkl")
 le_karier = joblib.load("le_karier.pkl")
 
-education_model = joblib.load("education_model.pkl")
-education_features = joblib.load("education_features.pkl")
+education_model = joblib.load("model_pendidikan.pkl")
+label_encoders = joblib.load("label_encoders.pkl")
 
 @app.route("/predict_edu", methods=["POST"])
 def predict_edu():
-    minat = request.form.get("minat")
-    nilai = int(request.form.get("nilai"))
-    tingkat = request.form.get("tingkat")
+    # Ambil data dari form atau frontend
+    field_of_study = request.form.get("field_of_study")
+    education_level = request.form.get("education_level")
+    skills = request.form.get("skills")
+    career_goals = request.form.get("career_goals")
+    location_preference = request.form.get("location_preference")
+    learning_style = request.form.get("learning_style")
 
-    # Buat DataFrame input satu baris
-    input_data = pd.DataFrame([{
-        "minat_" + minat: 1,
-        "tingkat_" + tingkat: 1,
-        "nilai": nilai
-    }])
+    # Buat dictionary input
+    input_dict = {
+        'field_of_study': field_of_study,
+        'education_level': education_level,
+        'skills': skills,
+        'career_goals': career_goals,
+        'location_preference': location_preference,
+        'learning_style': learning_style,
+    }
 
-    # Pastikan semua fitur ada
-    for col in education_features:
-        if col not in input_data.columns:
-            input_data[col] = 0
+    # Encode input dengan LabelEncoder
+    encoded_input = {}
+    for key, value in input_dict.items():
+        if key in label_encoders:
+            encoder = label_encoders[key]
+            try:
+                encoded_input[key] = encoder.transform([value])[0]
+            except ValueError:
+                return jsonify({"error": f"Input '{value}' tidak dikenali pada fitur '{key}'."})
+        else:
+            encoded_input[key] = value
 
-    # Urutkan kolom agar sesuai dengan model
-    input_data = input_data[education_features]
+    # Ubah ke DataFrame
+    input_df = pd.DataFrame([encoded_input])
 
     # Prediksi jurusan
-    prediction = education_model.predict(input_data)[0]
+    prediction = education_model.predict(input_df)[0]
 
-    return jsonify({"jurusan_rekomendasi": prediction})
+    # Decode hasil prediksi
+    target_encoder = label_encoders["recommended_program"]
+    predicted_program = target_encoder.inverse_transform([prediction])[0]
+
+    return jsonify({"jurusan_rekomendasi": predicted_program})
+
 @app.route("/form_edu")
 def form_edu():
     return render_template("form_edu.html")
+
 
 
 @app.route('/predict', methods=['POST'])
