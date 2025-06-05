@@ -5,9 +5,9 @@ from openai import OpenAI
 import joblib
 
 app = Flask(__name__)
-CORS(app)  # Agar bisa diakses dari frontend Laravel
+CORS(app)
 
-# Kumpulan jawaban untuk topik tertentu
+
 # responses = {
 #     "halo": "Halo juga! Ada yang bisa aku bantu seputar karier atau pendidikan?",
 #     "apa itu karier": "Karier adalah perjalanan profesional seseorang dalam dunia kerja.",
@@ -39,10 +39,10 @@ CORS(app)  # Agar bisa diakses dari frontend Laravel
 @app.route("/beasiswa", methods=["GET"])
 def get_beasiswa():
     try:
-        # Misalnya kita ambil data dari API beasiswa (ganti URL dengan API yang valid)
-        response = requests.get("https://api.example.com/beasiswa")  # Ganti dengan API yang relevan
+
+        response = requests.get("#")
         if response.status_code == 200:
-            data = response.json()  # Mengambil data JSON dari API
+            data = response.json()
             return jsonify({"beasiswa": data})
         else:
             return jsonify({"error": "Gagal mengambil data beasiswa"}), 500

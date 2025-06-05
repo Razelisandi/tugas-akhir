@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import joblib
 from scipy.sparse import hstack
 
-df = pd.read_csv('career_dataset.csv')  # kolom: Field, Skill, Career
+df = pd.read_csv('career_dataset.csv')
 
 df = df.rename(columns={"Field": "minat", "Skill": "kemampuan", "Career": "karier"})
 
@@ -24,7 +24,6 @@ y = le_karier.fit_transform(df["karier"])
 model = DecisionTreeClassifier()
 model.fit(X, y)
 
-# Simpan model dan vectorizer
 joblib.dump(model, "career_model.pkl")
 joblib.dump(tfidf_minat, "tfidf_minat.pkl")
 joblib.dump(tfidf_kemampuan, "tfidf_kemampuan.pkl")
