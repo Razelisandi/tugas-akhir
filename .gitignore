@@ -1,0 +1,57 @@
+# ========================================
+# Laravel
+# ========================================
+/vendor
+/node_modules
+/public/storage
+/storage/*.key
+.env
+.env.backup
+.phpunit.result.cache
+
+# Laravel logs & cache
+/storage/logs/*.log
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+
+# ========================================
+# Flask / Python
+# ========================================
+__pycache__/
+/*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# ========================================
+# AI/ML model files
+# (Biarkan *.pkl bisa masuk Git LFS jika dibutuhkan)
+/*.joblib
+/*.h5
+/*.model
+
+# KECUALIKAN FILE .pkl YANG DIPERLUKAN
+!chatbot-python/career_model.pkl
+!chatbot-python/embedder.pkl
+
+# ========================================
+# Dataset & output files
+# (jika kamu ingin commit dataset, hapus bagian ini)
+*.csv
+*.xlsx
+*.json
+
+# ========================================
+# VS Code & Sistem
+.vscode/
+.DS_Store
+Thumbs.db
+
+# ========================================
+# Git & Git LFS
+# Biarkan file .gitattributes bisa ditrack
+# .gitignore tetap di-track (file ini sendiri)
+/*.lfs
+!.gitattributes
