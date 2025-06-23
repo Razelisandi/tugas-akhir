@@ -36,7 +36,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('profile_photo')" />
 
             <!-- Modal Preview -->
-            <div x-show="showPreview" x-transition
+            <div x-show="showPreview" x-cloak x-transition
                 class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
 
                 <div class="relative">
@@ -104,3 +104,7 @@
         </div>
     </form>
 </section>
+
+<style>
+    [x-cloak] { display: none !important; }
+</style>

@@ -7,7 +7,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Fungsi untuk ekstrak teks dari PDF
+
 def extract_text_from_pdf(file_path):
     text = ''
     try:
@@ -18,38 +18,38 @@ def extract_text_from_pdf(file_path):
         print(f"Terjadi kesalahan saat membaca PDF: {e}")
     return text
 
-# Fungsi sederhana ekstraksi data dari teks
+
 def extract_information(text):
     result = {}
 
-    # 1. Nama (asumsi: baris paling atas dengan huruf besar)
+
     lines = text.splitlines()
     for line in lines:
         if line.strip() and line.strip().istitle():
             result["nama_lengkap"] = line.strip()
             break
 
-    # 2. Email
+
     email_match = re.search(r'[\w\.-]+@[\w\.-]+', text)
     result["email"] = email_match.group(0) if email_match else None
 
-    # 3. Riwayat Sekolah/Kampus
+
     sekolah_match = re.findall(r'(Universitas|Institut|Sekolah|SMK|SMA|STM)[^\n]{0,100}', text, re.IGNORECASE)
     result["riwayat_sekolah"] = sekolah_match[0].strip() if sekolah_match else None
 
-    # 4. Jurusan
+
     jurusan_match = re.findall(r'Jurusan\s?:?\s?(.*)', text, re.IGNORECASE)
     result["riwayat_jurusan"] = jurusan_match[0].strip() if jurusan_match else None
 
-    # 5. Riwayat Pekerjaan
+
     pekerjaan_match = re.findall(r'(?:Pengalaman Kerja|Pekerjaan|Experience)[\s\S]{0,500}', text, re.IGNORECASE)
     result["riwayat_pekerjaan"] = pekerjaan_match[0].strip() if pekerjaan_match else None
 
-    # 6. Magang / Kegiatan
+
     magang_match = re.findall(r'(?:Magang|Internship|Organisasi|Kegiatan)[\s\S]{0,300}', text, re.IGNORECASE)
     result["riwayat_kegiatan"] = magang_match[0].strip() if magang_match else None
 
-    # 7. Prestasi
+
     prestasi_match = re.findall(r'(?:Prestasi|Achievements?)[\s\S]{0,300}', text, re.IGNORECASE)
     result["riwayat_prestasi"] = prestasi_match[0].strip() if prestasi_match else None
 

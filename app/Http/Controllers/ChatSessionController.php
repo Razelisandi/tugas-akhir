@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatSessionController extends Controller
 {
-    // Create a new chat session
+
     public function create(Request $request)
     {
         $chatSession = ChatSession::create([
@@ -20,11 +20,11 @@ class ChatSessionController extends Controller
         return response()->json(['chat_session_id' => $chatSession->id]);
     }
 
-    // Get messages for a chat session
+
     public function getMessages($id)
     {
         try {
-            // Temporarily remove user_id filter to test if this fixes the 500 error
+
             $chatSession = ChatSession::where('id', $id)->firstOrFail();
             $messages = $chatSession->messages()->orderBy('created_at')->get();
 
@@ -37,7 +37,7 @@ class ChatSessionController extends Controller
         }
     }
 
-    // Add a message to a chat session
+
     public function addMessage(Request $request, $id)
     {
         $request->validate([
@@ -55,7 +55,7 @@ class ChatSessionController extends Controller
         return response()->json(['message' => $message]);
     }
 
-    // List all chat sessions for the authenticated user
+
     public function listSessions()
     {
         $sessions = ChatSession::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->get();
@@ -63,7 +63,7 @@ class ChatSessionController extends Controller
         return response()->json(['sessions' => $sessions]);
     }
 
-    // Update chat session name
+
     public function updateSessionName(Request $request, $id)
     {
         $request->validate([
@@ -77,7 +77,7 @@ class ChatSessionController extends Controller
         return response()->json(['session' => $chatSession]);
     }
 
-    // Delete a chat session
+
     public function deleteSession($id)
     {
         \DB::beginTransaction();
@@ -85,7 +85,7 @@ class ChatSessionController extends Controller
         try {
             $chatSession = ChatSession::findOrFail($id);
 
-            // Verifikasi kepemilikan
+
             if ($chatSession->user_id !== auth()->id()) {
                 return response()->json([
                     'success' => false,
@@ -93,7 +93,7 @@ class ChatSessionController extends Controller
                 ], 403);
             }
 
-            // Tidak perlu delete messages secara manual karena sudah ada onDelete('cascade')
+
             $chatSession->delete();
 
             \DB::commit();
@@ -108,7 +108,7 @@ class ChatSessionController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to delete session',
-                'error' => $e->getMessage() // Hanya untuk development
+                'error' => $e->getMessage()
             ], 500);
         }
     }

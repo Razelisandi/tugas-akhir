@@ -1,32 +1,35 @@
 from flask import Flask, request, jsonify, render_template
-import joblib
-import numpy as np
 from flask_cors import CORS
-from scipy.sparse import hstack
 import pandas as pd
+from sentence_transformers import SentenceTransformer, util
+import joblib
 
 app = Flask(__name__)
 CORS(app)
 
+# ========== NLP MODEL UNTUK REKOMENDASI KARIER ==========
+embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
-model = joblib.load("career_model.pkl")
-tfidf_minat = joblib.load("tfidf_minat.pkl")
-tfidf_kemampuan = joblib.load("tfidf_kemampuan.pkl")
-le_karier = joblib.load("le_karier.pkl")
+# Muat daftar karier (bisa dari file CSV juga)
+df_karier = pd.read_csv("career_dataset.csv")
+list_karier = df_karier["Career"].unique().tolist()
 
+# Precompute embedding untuk semua karier
+karier_embeddings = embedder.encode(list_karier, convert_to_tensor=True)
+
+# ========== MODEL UNTUK REKOMENDASI PENDIDIKAN ==========
 education_model = joblib.load("model_pendidikan.pkl")
 label_encoders = joblib.load("label_encoders.pkl")
 
+# ---------- Rekomendasi Pendidikan ----------
 @app.route("/predict_edu", methods=["POST"])
 def predict_edu():
-
     field_of_study = request.form.get("field_of_study")
     education_level = request.form.get("education_level")
     skills = request.form.get("skills")
     career_goals = request.form.get("career_goals")
     location_preference = request.form.get("location_preference")
     learning_style = request.form.get("learning_style")
-
 
     input_dict = {
         'field_of_study': field_of_study,
@@ -36,7 +39,6 @@ def predict_edu():
         'location_preference': location_preference,
         'learning_style': learning_style,
     }
-
 
     encoded_input = {}
     for key, value in input_dict.items():
@@ -49,13 +51,8 @@ def predict_edu():
         else:
             encoded_input[key] = value
 
-
     input_df = pd.DataFrame([encoded_input])
-
-
     prediction = education_model.predict(input_df)[0]
-
-
     target_encoder = label_encoders["recommended_program"]
     predicted_program = target_encoder.inverse_transform([prediction])[0]
 
@@ -65,26 +62,27 @@ def predict_edu():
 def form_edu():
     return render_template("form_edu.html")
 
-
-
+# ---------- Rekomendasi Karier (NLP Semantic) ----------
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
-    minat = data['minat']
-    kemampuan = data['kemampuan']
+    minat = data.get("minat", "")
+    kemampuan = data.get("kemampuan", "")
 
+    # Gabungkan input user jadi satu kalimat
+    input_text = minat + " " + kemampuan
 
-    minat_vec = tfidf_minat.transform([minat])
-    kemampuan_vec = tfidf_kemampuan.transform([kemampuan])
+    # Buat embedding dari input user
+    input_embedding = embedder.encode(input_text, convert_to_tensor=True)
 
+    # Hitung kemiripan dengan semua karier
+    cosine_scores = util.cos_sim(input_embedding, karier_embeddings)
 
-    input_vec = hstack([minat_vec, kemampuan_vec])
+    # Ambil karier dengan nilai kemiripan tertinggi
+    top_index = cosine_scores.argmax().item()
+    rekomendasi = list_karier[top_index]
 
-
-    pred = model.predict(input_vec)
-    karier = le_karier.inverse_transform(pred)[0]
-
-    return jsonify({'rekomendasi': karier})
+    return jsonify({"rekomendasi": rekomendasi})
 
 if __name__ == '__main__':
     app.run(port=5001)

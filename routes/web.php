@@ -54,6 +54,15 @@ Route::delete('/chat-sessions/{id}', [ChatSessionController::class, 'deleteSessi
 // Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
+// Route::post('/upload-cv', [CvController::class, 'upload'])->name('cv.upload');
+// Route::post('/cv/save', [CVController::class, 'save'])->name('cv.save');
+Route::post('/cv/save', [CVController::class, 'save'])->name('cv.save')->middleware('auth');
+Route::get('/cv', [CVController::class, 'showForm'])->name('cv.form')->middleware('auth');
+
+
+
+
+
 
 
 require __DIR__ . '/auth.php';

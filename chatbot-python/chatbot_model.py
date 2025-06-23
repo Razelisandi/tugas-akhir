@@ -35,7 +35,6 @@ CORS(app)
 #     "karier extrovert": ["kerja buat extrovert", "extrovert cocok kerja apa"]
 # }
 
-# Contoh endpoint untuk mengambil data beasiswa dari API eksternal
 @app.route("/beasiswa", methods=["GET"])
 def get_beasiswa():
     try:

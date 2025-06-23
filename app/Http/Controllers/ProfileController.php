@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\CvData;
 
 class ProfileController extends Controller
 {
@@ -18,8 +19,11 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $cv = CvData::where('user_id', Auth::id())->first();
+
         return view('profile.edit', [
             'user' => $request->user(),
+            'cv' => $cv,
         ]);
     }
 
@@ -66,4 +70,7 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+
+
 }
