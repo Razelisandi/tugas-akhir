@@ -22,16 +22,17 @@ Route::middleware('auth')->group(function () {
         return view('chatbot');
     })->name('chatbot');
 
-Route::post('/chat-sessions', [ChatSessionController::class, 'create']);
-Route::get('/chat-sessions/{id}/messages', [ChatSessionController::class, 'getMessages']);
-Route::post('/chat-sessions/{id}/messages', [ChatSessionController::class, 'addMessage']);
-Route::get('/chat-sessions', [ChatSessionController::class, 'listSessions']);
-Route::put('/chat-sessions/{id}', [ChatSessionController::class, 'updateSessionName']);
-Route::delete('/chat-sessions/{id}', [ChatSessionController::class, 'deleteSession']);
+    Route::post('/chat-sessions', [ChatSessionController::class, 'create']);
+    Route::get('/chat-sessions/{id}/messages', [ChatSessionController::class, 'getMessages']);
+    Route::post('/chat-sessions/{id}/messages', [ChatSessionController::class, 'addMessage']);
+    Route::get('/chat-sessions', [ChatSessionController::class, 'listSessions']);
+    Route::put('/chat-sessions/{id}', [ChatSessionController::class, 'updateSessionName']);
+    Route::delete('/chat-sessions/{id}', [ChatSessionController::class, 'deleteSession']);
 
-    Route::get('/karier', function () {
-        return view('karier');
-    })->name('karier');
+    Route::get('/karier', [KarierController::class, 'index'])->name('karier');
+    Route::post('/karier/save', [KarierController::class, 'saveSearch'])->name('karier.save');
+    Route::get('/karier/history', [KarierController::class, 'getHistory'])->name('karier.history');
+    Route::delete('/karier/{id}', [KarierController::class, 'deleteSearch'])->name('karier.delete');
 
     Route::get('/pendidikan', function () {
         return view('pendidikan');
@@ -42,12 +43,10 @@ Route::delete('/chat-sessions/{id}', [ChatSessionController::class, 'deleteSessi
     Route::post('/cv-upload', [CVController::class, 'upload'])->name('cv.upload');
     Route::get('/cv-manual', [CVController::class, 'manual'])->name('cv.manual');
 
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 
 // Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot');
 // Route::get('/karier', [KarierController::class, 'index'])->name('karier');
@@ -58,11 +57,5 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 // Route::post('/cv/save', [CVController::class, 'save'])->name('cv.save');
 Route::post('/cv/save', [CVController::class, 'save'])->name('cv.save')->middleware('auth');
 Route::get('/cv', [CVController::class, 'showForm'])->name('cv.form')->middleware('auth');
-
-
-
-
-
-
 
 require __DIR__ . '/auth.php';

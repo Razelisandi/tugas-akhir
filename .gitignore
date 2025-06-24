@@ -38,10 +38,11 @@ __pycache__/
 
 # ========================================
 # Dataset & output files
-# (jika kamu ingin commit dataset, hapus bagian ini)
 *.csv
 *.xlsx
 *.json
+!composer.json
+!package.json
 
 # ========================================
 # VS Code & Sistem
