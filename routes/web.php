@@ -22,21 +22,31 @@ Route::middleware('auth')->group(function () {
         return view('chatbot');
     })->name('chatbot');
 
-    Route::post('/chat-sessions', [ChatSessionController::class, 'create']);
-    Route::get('/chat-sessions/{id}/messages', [ChatSessionController::class, 'getMessages']);
-    Route::post('/chat-sessions/{id}/messages', [ChatSessionController::class, 'addMessage']);
+    // Route::post('/chat-sessions', [ChatSessionController::class, 'create']);
+    // Route::get('/chat-sessions/{id}/messages', [ChatSessionController::class, 'getMessages']);
+    // Route::post('/chat-sessions/{id}/messages', [ChatSessionController::class, 'addMessage']);
+    // Route::get('/chat-sessions', [ChatSessionController::class, 'listSessions']);
+    // Route::put('/chat-sessions/{id}', [ChatSessionController::class, 'updateSessionName']);
+    // Route::delete('/chat-sessions/{id}', [ChatSessionController::class, 'deleteSession']);
+
+    Route::middleware('auth')->group(function () {
     Route::get('/chat-sessions', [ChatSessionController::class, 'listSessions']);
+    Route::post('/chat-sessions', [ChatSessionController::class, 'create']);
     Route::put('/chat-sessions/{id}', [ChatSessionController::class, 'updateSessionName']);
     Route::delete('/chat-sessions/{id}', [ChatSessionController::class, 'deleteSession']);
+    Route::get('/chat-sessions/{id}/messages', [ChatSessionController::class, 'getMessages']);
+    Route::post('/chat-sessions/{id}/messages', [ChatSessionController::class, 'addMessage']);
+});
 
     Route::get('/karier', [KarierController::class, 'index'])->name('karier');
     Route::post('/karier/save', [KarierController::class, 'saveSearch'])->name('karier.save');
     Route::get('/karier/history', [KarierController::class, 'getHistory'])->name('karier.history');
     Route::delete('/karier/{id}', [KarierController::class, 'deleteSearch'])->name('karier.delete');
 
-    Route::get('/pendidikan', function () {
-        return view('pendidikan');
-    })->name('pendidikan');
+    Route::get('/pendidikan', [PendidikanController::class, 'index'])->name('pendidikan');
+    Route::post('/pendidikan/save', [PendidikanController::class, 'saveSearch'])->name('pendidikan.save');
+    Route::get('/pendidikan/history', [PendidikanController::class, 'getHistory'])->name('pendidikan.history');
+    Route::delete('/pendidikan/{id}', [PendidikanController::class, 'deleteSearch'])->name('pendidikan.delete');
 
     Route::post('/education-predict', [PendidikanController::class, 'predictEducation'])->name('education.predict');
 

@@ -21,10 +21,10 @@
                         {{ __('Chatbot') }}
                     </x-nav-link>
                     <x-nav-link :href="route('karier')" :active="request()->routeIs('karier')">
-                        {{ __('Karier') }}
+                        {{ __('Career') }}
                     </x-nav-link>
                     <x-nav-link :href="route('pendidikan')" :active="request()->routeIs('pendidikan')">
-                        {{ __('Pendidikan') }}
+                        {{ __('Education') }}
                     </x-nav-link>
                 </div>
             </div>

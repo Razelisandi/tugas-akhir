@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Message;
+use App\Models\ChatMessage;
 
 class ChatSession extends Model
 {
@@ -17,6 +17,6 @@ class ChatSession extends Model
 
     public function messages()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(ChatMessage::class);
     }
 }

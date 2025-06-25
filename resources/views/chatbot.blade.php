@@ -22,6 +22,14 @@
         <div class="flex-1 flex flex-col bg-gray-50 relative" style="height: calc(100vh - 4.5rem);">
             <div class="flex-1 p-6 overflow-y-auto" style="min-height: 0;">
                 <div id="chat-main" class="space-y-4"></div>
+<div id="chat-main-container" class="h-full relative">
+    <div id="chat-placeholder"
+        class="absolute inset-0 flex items-center justify-center text-gray-400 text-lg font-semibold">
+        Hello, what's in your mind?
+    </div>
+
+    <div id="chat-main" class="space-y-4 px-4 pb-4 overflow-y-auto h-full"></div>
+</div>
             </div>
 
             <form id="chat-form" class="p-4 bg-white border-t border-gray-300 flex items-center space-x-3">
@@ -42,6 +50,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             let currentChatSessionId = null;
+            let chatSessions = [];
             let isWaitingForResponse = false;
 
             // Fungsi untuk membuat bubble chat
@@ -89,23 +98,34 @@
             }
 
             // Fungsi untuk mengosongkan chat
-            function clearChat() {
-                document.getElementById('chat-main').innerHTML = '';
-            }
+function clearChat() {
+    document.getElementById('chat-main').innerHTML = '';
+    // Show placeholder when chat is cleared
+    const placeholder = document.getElementById("chat-placeholder");
+    if (placeholder) {
+        placeholder.style.display = 'flex';
+    }
+}
 
             // Event listener untuk form chat
-            document.getElementById("chat-form").addEventListener("submit", async function(e) {
-                e.preventDefault();
+document.getElementById("chat-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-                if (isWaitingForResponse) return;
+    if (isWaitingForResponse) return;
 
-                const messageInput = document.getElementById("message");
-                const userMessage = messageInput.value.trim();
+    const messageInput = document.getElementById("message");
+    const userMessage = messageInput.value.trim();
 
-                if (!userMessage) return;
+    if (!userMessage) return;
 
-                const main = document.getElementById("chat-main");
-                main.innerHTML += createMessageBubble('user', userMessage);
+    // Hide placeholder when user sends a message
+    const placeholder = document.getElementById("chat-placeholder");
+    if (placeholder) {
+        placeholder.style.display = 'none';
+    }
+
+    const main = document.getElementById("chat-main");
+    main.innerHTML += createMessageBubble('user', userMessage);
 
                 // Tampilkan loading indicator
                 showLoadingIndicator();
@@ -114,14 +134,13 @@
 
                 try {
                     // Kirim pesan ke backend Laravel
-                    const saveRes = await fetch('/chat-messages', {
+                    const saveRes = await fetch(`/chat-sessions/${currentChatSessionId}/messages`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         body: JSON.stringify({
-                            session_id: currentChatSessionId,
                             message: userMessage,
                             sender: 'user'
                         })
@@ -155,15 +174,55 @@
                     hideLoadingIndicator();
                     main.innerHTML += createMessageBubble('bot', botResponse);
 
+                    if (!currentChatSessionId) {
+                        const sessionRes = await fetch('/chat-sessions', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        });
+
+                        const sessionData = await sessionRes.json();
+                        currentChatSessionId = sessionData.chat_session_id;
+
+                        // Update session name di backend
+                        await fetch(`/chat-sessions/${currentChatSessionId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                name: `Chat ${chatSessions.length + 1}`
+                            })
+                        });
+
+                        chatSessions.push({
+                            id: currentChatSessionId,
+                            name: `Chat ${chatSessions.length + 1}`
+                        });
+
+                        renderChatSessions();
+
+                        // Tandai session ini sebagai aktif
+                        document.querySelectorAll('#chatSessionsList button').forEach(btn => {
+                            btn.classList.remove('bg-gray-300', 'font-bold');
+                            if (btn.dataset.sessionId == currentChatSessionId) {
+                                btn.classList.add('bg-gray-300', 'font-bold');
+                            }
+                        });
+                    }
+
+
                     // Simpan response bot ke database
-                    await fetch('/chat-messages', {
+                    await fetch(`/chat-sessions/${currentChatSessionId}/messages`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         body: JSON.stringify({
-                            session_id: currentChatSessionId,
                             message: botResponse,
                             sender: 'bot'
                         })
@@ -183,161 +242,180 @@
                 }
             });
 
-            // Fungsi untuk render sidebar chat sessions
-            function renderChatSessions() {
-                const list = document.getElementById('chatSessionsList');
-                list.innerHTML = '';
-                chatSessions.forEach((session, index) => {
-                    const container = document.createElement('div');
-                    container.className =
-                        'relative flex items-center justify-between px-2 py-1 rounded hover:bg-gray-200';
+function renderChatSessions() {
+    const list = document.getElementById('chatSessionsList');
+    list.innerHTML = '';
+    chatSessions.forEach((session, index) => {
+        const container = document.createElement('div');
+        container.className =
+            'relative flex items-center justify-between px-2 py-1 rounded hover:bg-gray-200';
 
-                    const sessionButton = document.createElement('button');
-                    sessionButton.textContent = session.name || `Chat ${index + 1}`;
-                    sessionButton.className = 'flex-1 text-left px-4 py-2 rounded focus:outline-none';
-                    sessionButton.dataset.sessionId = session.id;
-                    sessionButton.addEventListener('click', () => {
-                        if (currentChatSessionId !== session.id) {
-                            loadChatSession(session.id);
-                        }
-                        // Update active button styles
-                        document.querySelectorAll('#chatSessionsList button').forEach(btn => {
-                            btn.classList.remove('bg-gray-300', 'font-bold');
-                        });
-                        sessionButton.classList.add('bg-gray-300', 'font-bold');
-                    });
+        const sessionButton = document.createElement('button');
+        sessionButton.textContent = session.name || `Chat ${index + 1}`;
+        sessionButton.className = 'flex-1 text-left px-4 py-2 rounded focus:outline-none';
+        sessionButton.dataset.sessionId = session.id;
 
-                    const menuButton = document.createElement('button');
-                    menuButton.innerHTML = '&#x22EE;'; // Vertical ellipsis
-                    menuButton.className =
-                        'px-2 text-gray-600 hover:text-gray-900 focus:outline-none relative';
-                    menuButton.title = 'Options';
+        // Add active class if this session is the current active session
+        if (session.id === currentChatSessionId) {
+            sessionButton.classList.add('bg-gray-300', 'font-bold');
+        }
 
-                    const menu = document.createElement('div');
-                    menu.className =
-                        'absolute right-0 mt-2 w-24 bg-white border border-gray-300 rounded shadow-lg hidden flex-col z-10';
-                    menu.style.top = '100%';
-
-                    const editOption = document.createElement('button');
-                    editOption.textContent = 'Edit';
-                    editOption.className = 'px-4 py-2 text-left hover:bg-gray-100 focus:outline-none';
-                    editOption.addEventListener('click', async (e) => {
-                        e.stopPropagation();
-                        const newName = prompt('Enter new chat session name:', session.name);
-                        if (newName && newName.trim() !== '') {
-                            try {
-                                const res = await fetch(`/chat-sessions/${session.id}`, {
-                                    method: 'PUT',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                    },
-                                    body: JSON.stringify({
-                                        name: newName.trim()
-                                    })
-                                });
-                                if (res.ok) {
-                                    session.name = newName.trim();
-                                    renderChatSessions();
-                                } else {
-                                    alert('Failed to update session name.');
-                                }
-                            } catch (error) {
-                                alert('Error updating session name.');
-                            }
-                        }
-                        menu.classList.add('hidden');
-                    });
-
-                    const deleteOption = document.createElement('button');
-                    deleteOption.textContent = 'Delete';
-                    deleteOption.className =
-                        'px-4 py-2 text-left hover:bg-gray-100 focus:outline-none text-red-600';
-                    deleteOption.addEventListener('click', async (e) => {
-                        e.stopPropagation();
-                        if (confirm('Are you sure you want to delete this chat session?')) {
-                            try {
-                                const res = await fetch(`/chat-sessions/${session.id}`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': document.querySelector(
-                                            'meta[name="csrf-token"]').content,
-                                        'X-Requested-With': 'XMLHttpRequest'
-                                    },
-                                    credentials: 'include' // Untuk mengirim session cookie
-                                });
-
-                                const data = await res.json();
-
-                                if (!res.ok) {
-                                    throw new Error(data.message || 'Failed to delete session');
-                                }
-
-                                // Update UI
-                                chatSessions = chatSessions.filter(s => s.id !== session.id);
-                                if (currentChatSessionId === session.id) {
-                                    if (chatSessions.length > 0) {
-                                        loadChatSession(chatSessions[0].id);
-                                    } else {
-                                        clearChat();
-                                        currentChatSessionId = null;
-                                    }
-                                }
-                                renderChatSessions();
-
-                            } catch (error) {
-                                console.error('Delete error:', error);
-                                alert(error.message);
-                            }
-                        }
-                        menu.classList.add('hidden');
-                    });
-
-                    menu.appendChild(editOption);
-                    menu.appendChild(deleteOption);
-
-                    menuButton.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const isHidden = menu.classList.contains('hidden');
-                        document.querySelectorAll('#chatSessionsList div > div:last-child > div')
-                            .forEach(m => m.classList.add('hidden'));
-                        if (isHidden) {
-                            menu.classList.remove('hidden');
-                        } else {
-                            menu.classList.add('hidden');
-                        }
-                    });
-
-                    document.addEventListener('click', () => {
-                        menu.classList.add('hidden');
-                    });
-
-                    container.appendChild(sessionButton);
-                    container.appendChild(menuButton);
-                    container.appendChild(menu);
-                    list.appendChild(container);
-                });
+        sessionButton.addEventListener('click', () => {
+            if (currentChatSessionId !== session.id) {
+                loadChatSession(session.id);
             }
+            // Update active button styles
+            document.querySelectorAll('#chatSessionsList button').forEach(btn => {
+                btn.classList.remove('bg-gray-300', 'font-bold');
+            });
+            sessionButton.classList.add('bg-gray-300', 'font-bold');
+        });
 
-            // Fungsi untuk load chat session messages
-            async function loadChatSession(sessionId) {
+        const menuButton = document.createElement('button');
+        menuButton.innerHTML = '&#x22EE;'; // Vertical ellipsis
+        menuButton.className =
+            'px-2 text-gray-600 hover:text-gray-900 focus:outline-none relative';
+        menuButton.title = 'Options';
+
+        const menu = document.createElement('div');
+        menu.className =
+            'absolute right-0 mt-2 w-24 bg-white border border-gray-300 rounded shadow-lg hidden flex-col z-10';
+        menu.style.top = '100%';
+
+        const editOption = document.createElement('button');
+        editOption.textContent = 'Edit';
+        editOption.className = 'px-4 py-2 text-left hover:bg-gray-100 focus:outline-none';
+        editOption.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const newName = prompt('Enter new chat session name:', session.name);
+            if (newName && newName.trim() !== '') {
                 try {
-                    const res = await fetch(`/chat-sessions/${sessionId}/messages`);
+                    const res = await fetch(`/chat-sessions/${session.id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            name: newName.trim()
+                        })
+                    });
                     if (res.ok) {
-                        const data = await res.json();
-                        currentChatSessionId = sessionId;
-                        clearChat();
-                        data.messages.forEach(msg => {
-                            const bubble = createMessageBubble(msg.sender, msg.message);
-                            document.getElementById('chat-main').innerHTML += bubble;
-                        });
-                        scrollToBottom();
+                        session.name = newName.trim();
+                        renderChatSessions();
+                    } else {
+                        alert('Failed to update session name.');
                     }
                 } catch (error) {
-                    console.error('Gagal memuat sesi chat:', error);
+                    alert('Error updating session name.');
                 }
             }
+            menu.classList.add('hidden');
+        });
+
+        const deleteOption = document.createElement('button');
+        deleteOption.textContent = 'Delete';
+        deleteOption.className =
+            'px-4 py-2 text-left hover:bg-gray-100 focus:outline-none text-red-600';
+        deleteOption.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (confirm('Are you sure you want to delete this chat session?')) {
+                try {
+                    const res = await fetch(`/chat-sessions/${session.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector(
+                                'meta[name="csrf-token"]').content,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        credentials: 'include' // Untuk mengirim session cookie
+                    });
+
+                    const data = await res.json();
+
+                    if (!res.ok) {
+                        throw new Error(data.message || 'Failed to delete session');
+                    }
+
+                    // Update UI
+                    chatSessions = chatSessions.filter(s => s.id !== session.id);
+                    if (currentChatSessionId === session.id) {
+                        if (chatSessions.length > 0) {
+                            loadChatSession(chatSessions[0].id);
+                        } else {
+                            clearChat();
+                            currentChatSessionId = null;
+                        }
+                    }
+                    renderChatSessions();
+
+                } catch (error) {
+                    console.error('Delete error:', error);
+                    alert(error.message);
+                }
+            }
+            menu.classList.add('hidden');
+        });
+
+        menu.appendChild(editOption);
+        menu.appendChild(deleteOption);
+
+        menuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = menu.classList.contains('hidden');
+            document.querySelectorAll('#chatSessionsList div > div:last-child > div')
+                .forEach(m => m.classList.add('hidden'));
+            if (isHidden) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('click', () => {
+            menu.classList.add('hidden');
+        });
+
+        container.appendChild(sessionButton);
+        container.appendChild(menuButton);
+        container.appendChild(menu);
+        list.appendChild(container);
+    });
+}
+
+            // Fungsi untuk load chat session messages
+async function loadChatSession(sessionId) {
+    try {
+        const res = await fetch(`/chat-sessions/${sessionId}/messages`);
+        if (res.ok) {
+            const data = await res.json();
+            currentChatSessionId = sessionId;
+            clearChat();
+            if (data.messages.length === 0) {
+                // Show placeholder if no messages
+                const placeholder = document.getElementById("chat-placeholder");
+                if (placeholder) {
+                    placeholder.style.display = 'flex';
+                }
+            } else {
+                const placeholder = document.getElementById("chat-placeholder");
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
+                data.messages.forEach(msg => {
+                    const bubble = createMessageBubble(msg.sender, msg.message);
+                    document.getElementById('chat-main').innerHTML += bubble;
+                });
+            }
+            scrollToBottom();
+            // Update session list UI to highlight active session
+            renderChatSessions();
+        }
+    } catch (error) {
+        console.error('Gagal memuat sesi chat:', error);
+    }
+}
 
             // Fungsi untuk fetch all chat sessions
             async function fetchChatSessions() {
@@ -348,12 +426,12 @@
                         chatSessions = data.sessions;
                         renderChatSessions();
                         if (chatSessions.length > 0) {
-                            // Find session named "Jurusan Kuliah"
-                            const jurusanSession = chatSessions.find(session => session.name === "Jurusan Kuliah");
+                            // Find session named "Jurusan"
+                            const jurusanSession = chatSessions.find(session => session.name === "Jurusan");
                             if (jurusanSession) {
-                                loadChatSession(jurusanSession.id);
+                                await loadChatSession(jurusanSession.id);
                             } else {
-                                loadChatSession(chatSessions[0].id);
+                                await loadChatSession(chatSessions[0].id);
                             }
                         }
                     }
@@ -401,100 +479,12 @@
                 }
             });
 
-            // Event listener untuk form chat
-            document.getElementById("chat-form").addEventListener("submit", async function(e) {
-                e.preventDefault();
-
-                if (isWaitingForResponse) return;
-
-                const messageInput = document.getElementById("message");
-                const userMessage = messageInput.value.trim();
-
-                if (!userMessage) return;
-
-                const main = document.getElementById("chat-main");
-                main.innerHTML += createMessageBubble('user', userMessage);
-
-                // Tampilkan loading indicator
-                showLoadingIndicator();
-                isWaitingForResponse = true;
-                messageInput.disabled = true;
-
-                try {
-                    // Kirim pesan ke backend Laravel
-                    const saveRes = await fetch('/chat-messages', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            session_id: currentChatSessionId,
-                            message: userMessage,
-                            sender: 'user'
-                        })
-                    });
-
-                    // Kirim ke Flask chatbot
-                    const botRes = await fetch("http://127.0.0.1:5000/chat", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            message: userMessage
-                        })
-                    });
-
-                    if (!botRes.ok) {
-                        throw new Error("Gagal mengambil response dari chatbot");
-                    }
-
-                    const botData = await botRes.json();
-                    let botResponse = botData.response;
-
-                    // Jika ada error dalam response
-                    if (botResponse.includes("Terjadi kesalahan:")) {
-                        botResponse =
-                            "Maaf, aku sedang mengalami kesalahan teknis. Coba tanyakan hal lain atau coba lagi nanti ya!";
-                    }
-
-                    // Tampilkan response dari chatbot
-                    hideLoadingIndicator();
-                    main.innerHTML += createMessageBubble('bot', botResponse);
-
-                    // Simpan response bot ke database
-                    await fetch('/chat-messages', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            session_id: currentChatSessionId,
-                            message: botResponse,
-                            sender: 'bot'
-                        })
-                    });
-
-                } catch (error) {
-                    console.error("Terjadi kesalahan:", error);
-                    hideLoadingIndicator();
-                    main.innerHTML += createMessageBubble('bot',
-                        "Maaf, aku sedang tidak bisa merespons. Coba lagi nanti ya!");
-                } finally {
-                    isWaitingForResponse = false;
-                    messageInput.disabled = false;
-                    messageInput.value = "";
-                    messageInput.focus();
-                    scrollToBottom();
-                }
-            });
-
             // Inisialisasi
             async function initialize() {
                 await fetchChatSessions();
             }
+
+
 
             initialize();
         });

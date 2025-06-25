@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Rekomendasi Karier') }}
+            {{ __('Career Recommendation') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    {{-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -13,10 +13,11 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="pb-12">
+    </div> --}}
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-xl pb-0">Try Career Recommender</div>
                 <div class="p-6 md:flex md:flex-row md:space-x-8">
                     <!-- Form -->
                     <form class="space-y-6 w-full md:w-1/2" id="karierForm" method="POST">
@@ -46,25 +47,68 @@
                     <div id="result-container" class="mt-10 md:mt-0 md:w-1/2 flex flex-col justify-start items-start">
                     </div>
                 </div>
-                <div class="mt-10">
-                    <h3 class="text-xl font-semibold mb-4">Search History</h3>
-                    <table id="search-history" class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-md">
+                {{-- <div class="mt-10">
+                    <h3 class="text-xl font-semibold mb-4 ms-2">Search History</h3>
+                    <table id="search-history"
+                        class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-md">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interest</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Skills</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recommendation</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Interest</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Skills</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Recommendation</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Action</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <!-- History rows will be appended here -->
                         </tbody>
                     </table>
+                </div> --}}
+            </div>
+        </div>
+    </div>
+    <div class="pb-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 md:flex md:flex-row md:space-x-8">
+                    <div class="w-full">
+                        <h3 class="text-xl font-semibold mb-4 ms-2">History</h3>
+                        <table id="search-history"
+                            class="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-md">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Interest</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Skills</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Recommendation</th>
+                                    <th
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- History rows will be appended here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <x-footer />
 </x-app-layout>
 
 <style>
@@ -244,7 +288,12 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
-                body: JSON.stringify({ minat, kemampuan, rekomendasi, jobs: jobsData }),
+                body: JSON.stringify({
+                    minat,
+                    kemampuan,
+                    rekomendasi,
+                    jobs: jobsData
+                }),
             });
             if (!response.ok) throw new Error('Failed to save search');
             alert('Search saved successfully!');
